@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Plus, Minus, HelpCircle, ArrowRight } from 'lucide-react'
+import { Plus, Minus, HelpCircle, ArrowRight, Phone } from 'lucide-react'
 
 const FaqSection = () => {
   const [ref, inView] = useInView({
