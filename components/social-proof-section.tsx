@@ -1,10 +1,9 @@
-
 'use client'
 
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { User, Award, TrendingUp, Target, Rocket, DollarSign } from 'lucide-react'
+import { Star, Quote, ArrowRight, Building2 } from 'lucide-react'
 
 const SocialProofSection = () => {
   const [ref, inView] = useInView({
@@ -12,225 +11,174 @@ const SocialProofSection = () => {
     threshold: 0.1,
   })
 
-  const [counters, setCounters] = useState({
-    revenue: 0,
-    growth: 0,
-    sales: 0,
-    performance: 0
-  })
-
-  useEffect(() => {
-    if (inView) {
-      const duration = 2000
-      const steps = 50
-      const stepDuration = duration / steps
-
-      const targets = {
-        revenue: 550,
-        growth: 212,
-        sales: 8,
-        performance: 83
-      }
-
-      let step = 0
-      const interval = setInterval(() => {
-        step++
-        const progress = step / steps
-
-        setCounters({
-          revenue: Math.floor(targets.revenue * progress),
-          growth: Math.floor(targets.growth * progress),
-          sales: Math.floor(targets.sales * progress),
-          performance: Math.floor(targets.performance * progress)
-        })
-
-        if (step >= steps) {
-          clearInterval(interval)
-        }
-      }, stepDuration)
-
-      return () => clearInterval(interval)
-    }
-  }, [inView])
-
-  const achievements = [
+  const testimonials = [
     {
-      icon: DollarSign,
-      value: `R$ ${counters.revenue} milhões/ano`,
-      label: 'geridos em contas digitais (Adidas)',
-      color: 'from-green-500 to-emerald-600'
+      quote: "A metodologia ADITI™ transformou nossa operação comercial. Em 90 dias, conseguimos estruturar processos que antes levavam meses para implementar.",
+      author: "Diretor Comercial",
+      company: "Empresa de Tecnologia",
+      rating: 5
     },
     {
-      icon: TrendingUp,
-      value: `+${counters.growth}%`,
-      label: 'de crescimento no Mercado Livre (Adidas)',
-      color: 'from-purple-500 to-pink-600'
+      quote: "O ecossistema integrado da Aditi nos permitiu ter uma visão 360° do negócio. A automação com IA revolucionou nossa eficiência operacional.",
+      author: "CEO",
+      company: "Startup de E-commerce",
+      rating: 5
     },
     {
-      icon: Rocket,
-      value: `R$ ${counters.sales} milhões`,
-      label: 'em 90 dias na Coca-Cola Femsa',
-      color: 'from-blue-500 to-cyan-600'
-    },
-    {
-      icon: Award,
-      value: `+${counters.performance}%`,
-      label: 'de performance digital na Netshoes',
-      color: 'from-orange-500 to-red-600'
+      quote: "Resultados excepcionais em marketing digital. A Performance Digital entregou ROI superior ao esperado em todas as campanhas.",
+      author: "CMO",
+      company: "Empresa de Varejo",
+      rating: 5
     }
   ]
 
-  const experiences = [
-    'Adidas',
-    'ASICS', 
-    'Alpargatas',
-    'Coca-Cola Femsa',
-    'Netshoes'
+  const stats = [
+    { number: '+300', label: 'empresas atendidas', color: 'from-orange-400 to-red-500' },
+    { number: '20+', label: 'anos de experiência', color: 'from-purple-400 to-pink-500' },
+    { number: '90 dias', label: 'para primeiros resultados', color: 'from-blue-400 to-cyan-500' },
+    { number: '100%', label: 'foco em execução', color: 'from-green-400 to-emerald-500' }
   ]
 
   return (
-    <section id="social-proof" className="py-20 bg-white">
+    <section id="social-proof" className="section-spacing bg-white">
       <div className="section-container">
-        <div ref={ref}>
+        <div ref={ref} className="content-spacing">
           
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 font-poppins">
-              Quem conduz a <span className="text-purple-600">Aditi Digital Experts</span>
+            <div className="inline-flex items-center space-x-2 bg-gray-50 px-6 py-3 rounded-full border border-gray-200 mb-8">
+              <Star className="w-5 h-5 text-purple-500" />
+              <span className="text-sm font-semibold text-gray-700">Resultados Comprovados</span>
+            </div>
+            
+            <h2 className="text-4xl lg:text-6xl font-display text-gray-900 mb-6 leading-tight">
+              Transformação digital com 
+              <span className="text-gradient block">
+                resultados reais
+              </span>
             </h2>
+            
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Centenas de empresas já transformaram seus negócios com nossa metodologia integrada
+            </p>
           </motion.div>
 
-          {/* Alexandra Profile */}
+          {/* Stats Grid */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="max-w-4xl mx-auto mb-16"
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20"
           >
-            <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-3xl p-8 lg:p-12">
-              <div className="grid lg:grid-cols-3 gap-8 items-center">
-                
-                {/* Profile Image Placeholder */}
-                <div className="lg:col-span-1">
-                  <div className="w-48 h-48 mx-auto bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
-                    <User className="w-24 h-24 text-white" />
-                  </div>
+            {stats?.map((stat, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 card-hover text-center group"
+              >
+                <div className={`w-16 h-16 bg-gradient-to-br ${stat?.color} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <Building2 className="w-8 h-8 text-white" />
                 </div>
-
-                {/* Profile Info */}
-                <div className="lg:col-span-2 space-y-6">
-                  <div>
-                    <h3 className="text-3xl font-bold text-gray-900 mb-2 font-poppins">
-                      👤 Alexandra Vianna
-                    </h3>
-                    <p className="text-xl text-purple-600 font-semibold mb-4">
-                      Fundadora & CEO
-                    </p>
-                    <p className="text-gray-700 leading-relaxed">
-                      Com mais de 20 anos de experiência em Estratégia, Marketing, Vendas e Digital, esteve à frente de áreas-chave em multinacionais de alto impacto como Adidas, ASICS, Alpargatas e Coca-Cola Femsa.
-                    </p>
-                  </div>
-                  
-                  <p className="text-gray-700 leading-relaxed">
-                    Ao longo da carreira, liderou ciclos de expansão, reposicionamento e inovação em diferentes setores — da indústria ao varejo — acumulando experiência prática em crescimento sustentável e transformação de negócios.
-                  </p>
-                </div>
-              </div>
-            </div>
+                <h3 className="text-3xl font-display text-gray-900 mb-2">{stat?.number}</h3>
+                <p className="text-gray-600 font-medium">{stat?.label}</p>
+              </motion.div>
+            ))}
           </motion.div>
 
-          {/* Achievements Grid */}
+          {/* Testimonials */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mb-16"
+            className="mb-20"
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center font-poppins">
-              Resultados alcançados em sua trajetória:
-            </h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {achievements?.map((achievement, index) => {
-                const IconComponent = achievement?.icon
-                return (
-                  <div 
-                    key={index}
-                    className="border border-gray-200 rounded-2xl p-6 hover:border-gray-300 transition-all duration-300 text-center group"
-                  >
-                    <div className={`w-12 h-12 bg-gradient-to-br ${achievement?.color} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                      {IconComponent && <IconComponent className="w-6 h-6 text-white" />}
-                    </div>
-                    <h4 className="text-xl font-bold text-gray-900 mb-2 font-poppins">{achievement?.value}</h4>
-                    <p className="text-sm text-gray-600 font-medium">{achievement?.label}</p>
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-display text-gray-900 mb-4">
+                O que nossos clientes dizem
+              </h3>
+              <p className="text-lg text-gray-600">
+                Depoimentos reais de empresas que transformaram seus resultados
+              </p>
+            </div>
+
+            <div className="grid lg:grid-cols-3 gap-8">
+              {testimonials?.map((testimonial, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                  className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 card-hover"
+                >
+                  
+                  {/* Quote Icon */}
+                  <div className="w-12 h-12 aditi-gradient rounded-xl flex items-center justify-center mb-6">
+                    <Quote className="w-6 h-6 text-white" />
                   </div>
-                )
-              })}
+
+                  {/* Rating */}
+                  <div className="flex space-x-1 mb-4">
+                    {[...Array(testimonial?.rating)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                    ))}
+                  </div>
+
+                  {/* Quote */}
+                  <p className="text-gray-700 leading-relaxed mb-6 italic">
+                    "{testimonial?.quote}"
+                  </p>
+
+                  {/* Author */}
+                  <div className="border-t border-gray-100 pt-4">
+                    <p className="font-semibold text-gray-900">{testimonial?.author}</p>
+                    <p className="text-sm text-gray-500">{testimonial?.company}</p>
+                  </div>
+
+                </motion.div>
+              ))}
             </div>
           </motion.div>
 
-          {/* Experience & Vision */}
+          {/* Current Vision */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="mb-16"
+            className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-12 border border-gray-200"
           >
-            {/* Current Role - Centralizado */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg max-w-4xl mx-auto">
-              <h4 className="text-2xl font-bold text-gray-900 mb-8 font-poppins text-center">
+            <div className="text-center space-y-8">
+              <h3 className="text-3xl font-display text-gray-900">
                 Visão Atual
-              </h4>
-              <div className="text-center space-y-6">
-                <p className="text-gray-700 leading-relaxed text-lg">
+              </h3>
+              <div className="space-y-6 max-w-4xl mx-auto">
+                <p className="text-lg text-gray-700 leading-relaxed">
                   Hoje, lidera a Aditi Digital Experts como aceleradora de resultados empresariais, aplicando a disciplina estratégica das grandes corporações à realidade de empresas que precisam voltar a crescer com clareza, estrutura e rentabilidade.
                 </p>
-                <p className="text-gray-700 leading-relaxed text-lg">
+                <p className="text-lg text-gray-700 leading-relaxed">
                   Reconhecida por sua visão pragmática, escuta afiada e profundo respeito pelo empreendedor, Alexandra é responsável por conectar estratégia, execução e performance dentro do ecossistema Aditi.
                 </p>
               </div>
-            </div>
-          </motion.div>
-
-          {/* Bottom CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="text-center mt-16"
-          >
-            <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-8 text-white max-w-2xl mx-auto">
-              <h3 className="text-2xl font-bold mb-4 font-poppins">
-                Converse com Alexandra
-              </h3>
-              <p className="mb-6 opacity-90">
-                Descubra como a experiência de mais de 20 anos em grandes corporações 
-                pode acelerar o crescimento da sua empresa.
-              </p>
+              
               <button 
                 onClick={() => {
-                          try {
-                            if (typeof document === 'undefined') {
-                              console.error('Document não está disponível')
-                              return
-                            }
-                            const element = document.getElementById('cta')
-                            if (!element) {
-                              console.error('Elemento CTA não encontrado')
-                              return
-                            }
-                            element.scrollIntoView({ behavior: 'smooth' })
-                          } catch (error) {
-                            console.error('Erro ao rolar para CTA:', error)
-                          }
-                        }}
-                className="bg-white text-purple-600 px-8 py-4 rounded-full font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
+                  try {
+                    const element = document.getElementById('cta')
+                    if (element) element.scrollIntoView({ behavior: 'smooth' })
+                  } catch (error) {
+                    console.error('Erro ao rolar para CTA:', error)
+                  }
+                }}
+                className="btn-primary group"
               >
-                Agendar Conversa
+                <span>Agendar Conversa</span>
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
               </button>
             </div>
           </motion.div>

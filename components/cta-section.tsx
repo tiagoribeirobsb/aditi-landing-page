@@ -1,10 +1,9 @@
-
 'use client'
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Send, Phone, Mail, CheckCircle, ArrowRight, Sparkles } from 'lucide-react'
+import { Send, Phone, Mail, CheckCircle, ArrowRight, Sparkles, Clock, Shield, Award } from 'lucide-react'
 
 const CtaSection = () => {
   const [ref, inView] = useInView({
@@ -32,6 +31,24 @@ const CtaSection = () => {
     'Consultoria Estratégica'
   ]
 
+  const benefits = [
+    {
+      icon: Clock,
+      title: 'Análise em 48h',
+      description: 'Diagnóstico completo do seu negócio'
+    },
+    {
+      icon: Shield,
+      title: 'Sem compromisso',
+      description: 'Consultoria estratégica gratuita'
+    },
+    {
+      icon: Award,
+      title: 'Roadmap personalizado',
+      description: 'Plano de transformação digital'
+    }
+  ]
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -41,9 +58,8 @@ const CtaSection = () => {
       setIsSubmitted(true)
       setIsLoading(false)
       
-      // Track conversion (pixel firing simulation)
+      // Track conversion
       if (typeof window !== 'undefined') {
-        // Log conversion without exposing sensitive data
         console.log('Conversion tracked successfully')
         
         // Redirect to WhatsApp after submission
@@ -54,7 +70,6 @@ const CtaSection = () => {
             window.open(whatsappUrl, '_blank')
           } catch (error) {
             console.error('Erro ao abrir WhatsApp:', error)
-            // Fallback: show error message to user
             alert('Erro ao abrir WhatsApp. Tente novamente.')
           }
         }, 2000)
@@ -64,17 +79,9 @@ const CtaSection = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     try {
-      if (!e || !e.target) {
-        console.error('Evento ou target não disponível')
-        return
-      }
-      
+      if (!e || !e.target) return
       const { name, value } = e.target
-      
-      if (!name) {
-        console.error('Nome do campo não encontrado')
-        return
-      }
+      if (!name) return
       
       setFormData({
         ...formData,
@@ -87,26 +94,28 @@ const CtaSection = () => {
 
   if (isSubmitted) {
     return (
-      <section id="cta" className="py-20 bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-600">
+      <section id="cta" className="section-spacing bg-white">
         <div className="section-container">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="text-center text-white max-w-2xl mx-auto"
+            className="text-center max-w-2xl mx-auto"
           >
-            <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-8">
-              <CheckCircle className="w-10 h-10 text-white" />
-            </div>
-            <h2 className="text-4xl font-bold mb-6 font-poppins">
-              Obrigado pelo seu interesse!
-            </h2>
-            <p className="text-xl mb-8 opacity-90">
-              Recebemos suas informações e em breve você será redirecionado para o WhatsApp 
-              para conversarmos sobre sua transformação digital.
-            </p>
-            <div className="flex justify-center">
-              <div className="animate-spin w-8 h-8 border-4 border-white border-t-transparent rounded-full"></div>
+            <div className="bg-white rounded-3xl p-12 shadow-xl border border-gray-100">
+              <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-8">
+                <CheckCircle className="w-10 h-10 text-white" />
+              </div>
+              <h2 className="text-4xl font-display text-gray-900 mb-6">
+                Obrigado pelo seu interesse!
+              </h2>
+              <p className="text-xl text-gray-600 mb-8">
+                Recebemos suas informações e em breve você será redirecionado para o WhatsApp 
+                para conversarmos sobre sua transformação digital.
+              </p>
+              <div className="flex justify-center">
+                <div className="animate-spin w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full"></div>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -115,89 +124,107 @@ const CtaSection = () => {
   }
 
   return (
-    <section id="cta" className="py-20 bg-gradient-to-br from-purple-600 via-blue-600 to-cyan-600 relative overflow-hidden">
-      
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-white/5 rounded-full animate-float"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-white/5 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-3/4 left-3/4 w-16 h-16 bg-white/5 rounded-full animate-float" style={{ animationDelay: '4s' }}></div>
-      </div>
-
-      <div className="section-container relative">
-        <div ref={ref}>
+    <section id="cta" className="section-spacing bg-gray-50">
+      <div className="section-container">
+        <div ref={ref} className="content-spacing">
           
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-20"
+          >
+            <div className="inline-flex items-center space-x-2 bg-white px-6 py-3 rounded-full shadow-md border border-gray-100 mb-8">
+              <Sparkles className="w-5 h-5 text-purple-500" />
+              <span className="text-sm font-semibold text-gray-700">Transformação Digital Gratuita</span>
+            </div>
             
-            {/* Left Column - Content */}
+            <h2 className="text-4xl lg:text-6xl font-display text-gray-900 mb-6 leading-tight">
+              Pronto para destravar o crescimento da sua
+              <span className="text-gradient block">
+                empresa?
+              </span>
+            </h2>
+            
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Converse com um dos nossos especialistas e descubra como nossa estrutura integrada pode transformar seus resultados.
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            
+            {/* Left Column - Benefits */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8 }}
-              className="text-white"
+              className="space-y-8"
             >
-              <div className="flex items-center space-x-3 mb-6">
-                <Sparkles className="w-8 h-8 text-cyan-300" />
-                <span className="text-cyan-300 font-semibold">Transformação Digital Gratuita</span>
-              </div>
               
-              <h2 className="text-4xl sm:text-5xl font-bold mb-6 font-poppins">
-                Pronto para destravar o crescimento da sua
-                <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-300">
-                  empresa?
-                </span>
-              </h2>
-              
-              <p className="text-xl mb-8 opacity-90 leading-relaxed">
-                Converse com um dos nossos especialistas e descubra como nossa estrutura integrada pode transformar seus resultados.
-              </p>
-
-              <div className="space-y-4 mb-8">
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-400" />
-                  <span>Análise gratuita do seu negócio em até 48h</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-400" />
-                  <span>Roadmap personalizado de transformação digital</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-green-400" />
-                  <span>Sem compromisso, consultoria estratégica gratuita</span>
-                </div>
+              <div className="space-y-6">
+                {benefits?.map((benefit, index) => {
+                  const IconComponent = benefit?.icon
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={inView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                      className="flex items-start space-x-4 bg-white rounded-2xl p-6 shadow-md border border-gray-100"
+                    >
+                      <div className="w-12 h-12 aditi-gradient rounded-xl flex items-center justify-center flex-shrink-0">
+                        {IconComponent && <IconComponent className="w-6 h-6 text-white" />}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-semibold text-gray-900 mb-2">{benefit?.title}</h3>
+                        <p className="text-gray-600">{benefit?.description}</p>
+                      </div>
+                    </motion.div>
+                  )
+                })}
               </div>
 
-              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                <a
-                  href="https://wa.me/5511528684246"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center space-x-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105"
-                >
-                  <Phone className="w-5 h-5" />
-                  <span>WhatsApp Direto</span>
-                </a>
-                <a
-                  href="mailto:contato@aditidigital.com.br"
-                  className="flex items-center justify-center space-x-2 bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 backdrop-blur-sm"
-                >
-                  <Mail className="w-5 h-5" />
-                  <span>E-mail</span>
-                </a>
+              {/* Quick Contact */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                <h3 className="text-2xl font-display text-gray-900 mb-6">
+                  Prefere falar diretamente?
+                </h3>
+                <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                  <a
+                    href="https://wa.me/5511528684246"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center space-x-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105"
+                  >
+                    <Phone className="w-5 h-5" />
+                    <span>WhatsApp Direto</span>
+                  </a>
+                  <a
+                    href="mailto:contato@aditidigital.com.br"
+                    className="flex items-center justify-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-full font-semibold transition-all duration-300"
+                  >
+                    <Mail className="w-5 h-5" />
+                    <span>E-mail</span>
+                  </a>
+                </div>
               </div>
+
             </motion.div>
 
-            {/* Right Column - Interactive Form */}
+            {/* Right Column - Form */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20"
+              className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100"
             >
-              <h3 className="text-2xl font-bold text-white mb-6 text-center font-poppins">
+              <h3 className="text-2xl font-display text-gray-900 mb-2 text-center">
                 Solicite sua Análise Gratuita
               </h3>
+              <p className="text-gray-600 text-center mb-8">
+                Preencha o formulário e receba um diagnóstico personalizado
+              </p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 
@@ -210,7 +237,7 @@ const CtaSection = () => {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-full bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-sm"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
                     />
                   </div>
                   <div>
@@ -221,7 +248,7 @@ const CtaSection = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-full bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-sm"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
                     />
                   </div>
                 </div>
@@ -235,7 +262,7 @@ const CtaSection = () => {
                       value={formData.phone}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 rounded-full bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-sm"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
                     />
                   </div>
                   <div>
@@ -245,7 +272,7 @@ const CtaSection = () => {
                       placeholder="Nome da empresa"
                       value={formData.company}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-full bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-sm"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
                     />
                   </div>
                 </div>
@@ -256,11 +283,11 @@ const CtaSection = () => {
                     value={formData.interest}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 rounded-full bg-white/20 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-sm"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300"
                   >
                     <option value="">Selecione seu interesse *</option>
                     {interests?.map((interest, index) => (
-                      <option key={index} value={interest} className="text-gray-900">
+                      <option key={index} value={interest}>
                         {interest}
                       </option>
                     ))}
@@ -274,14 +301,14 @@ const CtaSection = () => {
                     value={formData.message}
                     onChange={handleInputChange}
                     rows={4}
-                    className="w-full px-4 py-3 rounded-2xl bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-sm resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 resize-none"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white py-4 px-6 rounded-full font-bold text-lg hover:shadow-lg transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                  className="w-full btn-primary disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 >
                   {isLoading ? (
                     <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div>
@@ -293,7 +320,7 @@ const CtaSection = () => {
                   )}
                 </button>
 
-                <p className="text-white/70 text-sm text-center">
+                <p className="text-gray-500 text-sm text-center">
                   Seus dados estão seguros e protegidos conforme a LGPD. 
                   Não enviamos spam.
                 </p>
@@ -302,6 +329,7 @@ const CtaSection = () => {
             </motion.div>
 
           </div>
+
         </div>
       </div>
     </section>
