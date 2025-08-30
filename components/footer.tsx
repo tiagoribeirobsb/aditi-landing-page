@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Heart, Linkedin, Instagram, Youtube, Mail, Phone, MapPin } from 'lucide-react'
+import { Heart, Linkedin, Instagram, Youtube, Mail, Phone, MapPin, ArrowRight } from 'lucide-react'
 
 const Footer = () => {
   const [ref, inView] = useInView({
