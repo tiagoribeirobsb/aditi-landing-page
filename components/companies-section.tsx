@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { TrendingUp, Brain, Zap, ArrowRight, CheckCircle } from 'lucide-react'
+import { TrendingUp, Brain, Zap, ArrowRight, CheckCircle, Building2 } from 'lucide-react'
 import Image from 'next/image'
 
 const CompaniesSection = () => {
