@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Building2, Users, Trophy, Rocket, TrendingUp, DollarSign, Award, Target } from 'lucide-react'
+import { Building2, Users, Trophy, Rocket, TrendingUp, DollarSign, Award, Target, ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 
 const AboutSection = () => {
